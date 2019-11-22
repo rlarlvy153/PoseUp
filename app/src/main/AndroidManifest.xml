@@ -20,7 +20,9 @@
 <!--            </intent-filter>-->
 
         </activity>
-        <activity android:name="app.web.postup.MainActivity">
+        <activity android:name="app.web.postup.MainActivity"
+            android:windowSoftInputMode="adjustResize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
