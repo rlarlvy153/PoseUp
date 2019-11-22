@@ -35,7 +35,7 @@
             android:layout_height="450dp"/>
 
         <Button
-            style="@style/signInWithGoogleButton"
+            style="@style/sign_in_with_google_button"
             android:layout_marginTop="50dp"
             android:text="@string/sign_in_with_google"
             android:layout_gravity="center|center_vertical"
