@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.web.postup.R
 import android.os.Handler
 import android.util.Log
+import android.view.animation.TranslateAnimation
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
 
@@ -65,8 +66,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         setContentView(R.layout.activity_main)
 
         editNoteContainer = findViewById(R.id.edit_note_container)
-        editNoteContainer.translationY = 1000f
-        editNoteContainer.visibility = View.VISIBLE
 
         editNote = findViewById(R.id.edit_note)
 
@@ -74,6 +73,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
+
 
     }
     fun setCurrenLocation(){
@@ -124,22 +126,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         isUp = !isUp
     }
     fun slideUp(view :View){
-        view.translationY = view.height.toFloat()
         view.visibility = View.VISIBLE
-        editNoteContainer.translationY = view.height.toFloat()
-        ObjectAnimator.ofFloat(view, "translationY", 0f).apply {
-            duration = ANIMATION_DURATION
-            start()
-        }
+        showToast(view.height.toString())
+        var ani = TranslateAnimation(0f,0f,view.height.toFloat(),0f)
+        ani.duration = ANIMATION_DURATION
+        ani.fillAfter = true
+        view.startAnimation(ani)
 
     }
     fun slideDown(view :View){
-
-        ObjectAnimator.ofFloat(view, "translationY", view.height.toFloat()).apply {
-            duration = ANIMATION_DURATION
-            start()
-        }
-        Handler().postDelayed(Runnable { view.visibility = View.GONE }, ANIMATION_DURATION)
+        val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat())
+        ani.duration = ANIMATION_DURATION
+        ani.fillAfter = true
+        view.startAnimation(ani)
+        Handler().postDelayed({ view.visibility = View.GONE }, ANIMATION_DURATION)
     }
 
 

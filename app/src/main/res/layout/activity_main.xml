@@ -17,7 +17,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         />
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/edit_note_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
