@@ -43,8 +43,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onMapReady(map : GoogleMap) {
         Log.i("kgp","map ready")
         googleMap = map
-        googleMap.uiSettings.isZoomControlsEnabled =true
-        googleMap.setOnMarkerClickListener(this)
+        googleMap.run{
+            uiSettings.isZoomControlsEnabled = true
+            setOnMarkerClickListener(this@MainActivity)
+        }
+
         getLocationPermission()
     }
     fun getLocationPermission(){
@@ -73,8 +76,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
 
 
     }
@@ -126,18 +127,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         isUp = !isUp
     }
     fun slideUp(view :View){
-        view.visibility = View.VISIBLE
-        showToast(view.height.toString())
-        var ani = TranslateAnimation(0f,0f,view.height.toFloat(),0f)
-        ani.duration = ANIMATION_DURATION
-        ani.fillAfter = true
-        view.startAnimation(ani)
 
+        val ani = TranslateAnimation(0f,0f,view.height.toFloat(),0f).apply{
+            duration = ANIMATION_DURATION
+            fillAfter = true
+        }
+        view.run{
+            visibility = View.VISIBLE
+            startAnimation(ani)
+        }
     }
     fun slideDown(view :View){
-        val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat())
-        ani.duration = ANIMATION_DURATION
-        ani.fillAfter = true
+        val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat()).apply{
+            duration = ANIMATION_DURATION
+            fillAfter = true
+
+        }
+
         view.startAnimation(ani)
         Handler().postDelayed({ view.visibility = View.GONE }, ANIMATION_DURATION)
     }
