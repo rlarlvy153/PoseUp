@@ -1,7 +1,6 @@
 package app.web.postup
 
 import android.Manifest
-import android.animation.ObjectAnimator
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
@@ -17,13 +16,16 @@ import android.widget.EditText
 import androidx.core.app.ActivityCompat
 
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
+import app.web.postup.PostData.PostApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
@@ -39,6 +41,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation: Location
     lateinit var mapFragment:SupportMapFragment
 
+
+    lateinit var compositeDisposable: CompositeDisposable
     var isUp = false
     override fun onMapReady(map : GoogleMap) {
         Log.i("kgp","map ready")
@@ -77,7 +81,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        compositeDisposable = CompositeDisposable()
 
+        compositeDisposable.add(
+            PostApi.getPostList()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.newThread())
+            .subscribe({ response: PostResponseModel ->
+                for (item in response.posts) {
+                    Log.d("kgp", item.toString())
+                    googleMap.addMarker(MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
+                        .title(item.userName)
+                        .snippet(item.text)
+                    )
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
+                }
+            }, { error: Throwable ->
+                Log.d("kgp", error.localizedMessage)
+                Toast.makeText(this, "Error ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }))
     }
     fun setCurrenLocation(){
 
@@ -88,12 +110,18 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 Log.i("kgp",currentLatLng.longitude.toString() + " " + currentLatLng.latitude)
+
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
             }
         }
 
     }
     override fun onMarkerClick(marker: Marker?): Boolean {
+        if(marker!=null){
+            Log.i("kgp","${marker.title} ${marker.title}")
+
+            marker.showInfoWindow()
+        }
         return true
     }
 
@@ -112,14 +140,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
     fun onClickPostButton(v : View){
+
         if(isUp){
             slideDown(editNoteContainer)
 
             //register note !
             Toast.makeText(this, "editNote : " + editNote.text.toString(),Toast.LENGTH_SHORT).show()
             val text = editNote.text.toString()
-            googleMap.addMarker(MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude)))
-
+            if(text != ""){
+                googleMap.addMarker(MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
+                    .title(text)
+                )
+                return
+            }
+            else{
+                showToast(resources.getString(R.string.empty_post))
+            }
         }
         else {
             slideUp(editNoteContainer)
