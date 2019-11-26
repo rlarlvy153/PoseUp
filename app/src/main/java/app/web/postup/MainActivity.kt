@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 
 import androidx.core.content.ContextCompat
 import app.web.postup.PostData.PostApi
+import app.web.postup.PostData.Utils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
@@ -29,7 +30,7 @@ import io.reactivex.schedulers.Schedulers
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
-
+    private val TAG = "kgp::MainActivity::"
     val ANIMATION_DURATION=300L
     val ACCESS_FINE_LOCATION_CODE=1
 
@@ -41,11 +42,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var lastLocation: Location
     lateinit var mapFragment:SupportMapFragment
 
-
+    var userName:String = ""
     lateinit var compositeDisposable: CompositeDisposable
     var isUp = false
     override fun onMapReady(map : GoogleMap) {
-        Log.i("kgp","map ready")
+        Log.i(TAG,"map ready")
         googleMap = map
         googleMap.run{
             uiSettings.isZoomControlsEnabled = true
@@ -59,10 +60,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),ACCESS_FINE_LOCATION_CODE)
-            Log.i("kgp","permission non granted")
+            Log.i(TAG,"permission non granted")
         }
         else {
-            Log.i("kgp","permission granted")
+            Log.i(TAG,"permission granted")
             googleMap.isMyLocationEnabled = true
             setCurrenLocation()
         }
@@ -71,6 +72,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        userName = intent.getStringExtra("userName")
 
         editNoteContainer = findViewById(R.id.edit_note_container)
 
@@ -89,7 +92,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             .subscribeOn(Schedulers.newThread())
             .subscribe({ response: PostResponseModel ->
                 for (item in response.posts) {
-                    Log.d("kgp", item.toString())
+                    Log.d(TAG, item.toString())
                     googleMap.addMarker(MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
                         .title(item.userName)
                         .snippet(item.text)
@@ -97,8 +100,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 //                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
                 }
             }, { error: Throwable ->
-                Log.d("kgp", error.localizedMessage)
-                Toast.makeText(this, "Error ${error.localizedMessage}", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, error.localizedMessage)
             }))
     }
     fun setCurrenLocation(){
@@ -109,7 +111,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (location != null) {
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                Log.i("kgp",currentLatLng.longitude.toString() + " " + currentLatLng.latitude)
+                Log.i(TAG,currentLatLng.longitude.toString() + " " + currentLatLng.latitude)
 
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
             }
@@ -118,7 +120,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
     override fun onMarkerClick(marker: Marker?): Boolean {
         if(marker!=null){
-            Log.i("kgp","${marker.title} ${marker.title}")
+            Log.i(TAG,"${marker.title} ${marker.title}")
 
             marker.showInfoWindow()
         }
@@ -135,7 +137,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 setCurrenLocation()
             }
             else{
-                showToast(resources.getString(R.string.cannot_use_location))
+
+                Utils.showToast(this,resources.getString(R.string.cannot_use_location))
             }
         }
     }
@@ -145,16 +148,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             slideDown(editNoteContainer)
 
             //register note !
-            Toast.makeText(this, "editNote : " + editNote.text.toString(),Toast.LENGTH_SHORT).show()
             val text = editNote.text.toString()
             if(text != ""){
                 googleMap.addMarker(MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
-                    .title(text)
+                    .title(userName)
+                    .snippet(text)
                 )
                 return
             }
             else{
-                showToast(resources.getString(R.string.empty_post))
+                Utils.showToast(this,resources.getString(R.string.empty_post))
             }
         }
         else {

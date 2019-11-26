@@ -13,7 +13,7 @@ class PostApi{
 
     companion object {
         fun getPostList(): Observable<PostResponseModel> {
-            return RetrofitCreator.create(GithubApiImpl::class.java)
+            return RetrofitCreator.create(getPostListApiImpl::class.java)
                 .getPostList()
         }
     }
