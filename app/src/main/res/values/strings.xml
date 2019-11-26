@@ -3,6 +3,8 @@
 
     <string name="post_button">POST</string>
 
+    <string name="empty_post">빈 메모를 작성할 수 없습니다.</string>
+    <string name="cannot_use_location">위치를 사용할 수 없습니다.</string>
     <string name="note_editing_hint">내용을 입력해주세요.</string>
     <string name="intro_main_title">POST UP</string>
     <string name="intro_sub_title">Prototype</string>
