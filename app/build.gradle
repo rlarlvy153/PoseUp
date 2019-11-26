@@ -3,17 +3,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 Properties properties = new Properties()
 
 def propFile = new File('local.properties')
 def API_KEY = ''
-if(propFile.canRead()){
+if (propFile.canRead()) {
     properties.load(new FileInputStream(propFile))
-    if(properties!=null && properties.containsKey('GOOGLE_MAPS_API_KEY')){
-        API_KEY= properties['GOOGLE_MAPS_API_KEY']
-    }
-    else{
+    if (properties != null && properties.containsKey('GOOGLE_MAPS_API_KEY')) {
+        API_KEY = properties['GOOGLE_MAPS_API_KEY']
+    } else {
         println 'google maps api key is missing'
     }
 }
@@ -24,7 +24,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId "com.posthere.posthere"
+        applicationId "app.web.postup"
         minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
@@ -32,7 +32,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
-        manifestPlaceholders = ["googleMapApiKey":API_KEY]
+        manifestPlaceholders = ["googleMapApiKey": API_KEY]
     }
     buildTypes {
         release {
@@ -64,4 +64,9 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+
 }
