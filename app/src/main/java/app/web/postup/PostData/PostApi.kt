@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 
 class PostApi{
-    interface GithubApiImpl {
+    interface getPostListApiImpl {
         @GET("/pupost")
         fun getPostList(): Observable<PostResponseModel>
     }
