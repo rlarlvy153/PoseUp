@@ -108,7 +108,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             // Got last known location. In some rare situations this can be null.
             // 3
-            if (location != null) {
+
+            location.let{
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 Log.i(TAG,currentLatLng.longitude.toString() + " " + currentLatLng.latitude)
@@ -119,17 +120,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
     override fun onMarkerClick(marker: Marker?): Boolean {
-        if(marker!=null){
+        marker?.let{
             Log.i(TAG,"${marker.title} ${marker.title}")
-
             marker.showInfoWindow()
+
         }
-        return true
+        return false
     }
 
-    fun showToast(message : String){
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
-    }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if(requestCode == ACCESS_FINE_LOCATION_CODE){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
@@ -149,12 +147,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
             //register note !
             val text = editNote.text.toString()
-            if(text != ""){
+            if(text.isNotBlank()){
                 googleMap.addMarker(MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
                     .title(userName)
                     .snippet(text)
                 )
-                return
             }
             else{
                 Utils.showToast(this,resources.getString(R.string.empty_post))
