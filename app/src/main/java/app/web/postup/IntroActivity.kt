@@ -76,7 +76,8 @@ class IntroActivity : AppCompatActivity() {
                 // 구글 로그인 성공
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account)
-                if(account != null){
+
+                account?.let{
                     Log.i(TAG,account.displayName + "")
                     Log.i(TAG,account.id + "")
                     Log.i(TAG,account.familyName + "")
@@ -88,8 +89,8 @@ class IntroActivity : AppCompatActivity() {
                     callMainActivityIntent.putExtra("userName",account.displayName)
                     startActivity(callMainActivityIntent)
                     finish()
-
                 }
+
             } catch (e: ApiException) {
                 Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
             }
