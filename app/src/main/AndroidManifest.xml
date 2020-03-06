@@ -13,22 +13,22 @@
         android:theme="@style/AppTheme">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="${googleMapApiKey}"/>
 
-        <activity android:name="app.web.postup.IntroActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-        <activity android:name="app.web.postup.MainActivity"
-            android:windowSoftInputMode="adjustResize"
-            >
+<!--        <activity android:name="app.web.postup.IntroActivity">-->
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 <!--                <action android:name="android.intent.action.VIEW" />-->
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
+
+<!--        </activity>-->
+        <activity android:name="app.web.postup.MainActivity"
+            android:windowSoftInputMode="adjustResize"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

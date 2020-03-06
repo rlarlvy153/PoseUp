@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitCreator {
     companion object{
-        val API_BASE_URL = "https://us-central1-post-up-kr.cloudfunctions.net"
+        val API_BASE_URL = "http://pupost.youngcha.co.kr/mock/"
 
         private fun defaultRetrofit(): Retrofit{
             return Retrofit.Builder()
@@ -35,6 +35,7 @@ class RetrofitCreator {
             return OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .build()
+
 
         }
     }

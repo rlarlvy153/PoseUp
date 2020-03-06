@@ -73,7 +73,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        userName = intent.getStringExtra("userName")
+//        userName = intent.getStringExtra("userName")
+        userName = "asdf"
 
         editNoteContainer = findViewById(R.id.edit_note_container)
 
