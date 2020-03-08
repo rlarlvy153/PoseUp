@@ -2,8 +2,9 @@ package app.web.postup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import app.web.postup.PostData.PostApi
-import app.web.postup.PostData.PostModel
+import app.web.postup.Model.PostModel
+import app.web.postup.Network.PostApiInterface
+import app.web.postup.Network.RetrofitCreator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -13,6 +14,7 @@ class ViewModel : ViewModel(){
 
     var compositeDisposable = CompositeDisposable()
     var postList = MutableLiveData<ArrayList<PostModel>>()
+    var restClient = RetrofitCreator.getRetrofitService(PostApiInterface::class.java)
 
     init{
         postList.value = ArrayList<PostModel>()
@@ -20,7 +22,7 @@ class ViewModel : ViewModel(){
 
     fun getPostList(){
         compositeDisposable.add(
-            PostApi.getPostList()
+            restClient.getPostList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response->

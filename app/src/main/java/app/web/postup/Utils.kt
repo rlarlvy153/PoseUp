@@ -1,4 +1,4 @@
-package app.web.postup.PostData
+package app.web.postup
 
 import android.content.Context
 import android.widget.Toast

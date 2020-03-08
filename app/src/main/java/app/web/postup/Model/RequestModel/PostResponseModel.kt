@@ -1,6 +1,6 @@
-package app.web.postup
+package app.web.postup.Model.RequestModel
 
-import app.web.postup.PostData.PostModel
+import app.web.postup.Model.PostModel
 import com.google.gson.annotations.SerializedName
 
 class PostResponseModel{
