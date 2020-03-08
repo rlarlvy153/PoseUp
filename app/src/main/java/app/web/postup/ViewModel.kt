@@ -26,8 +26,8 @@ class ViewModel : ViewModel(){
         compositeDisposable.add(
             PostApi.getPostList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe({ response: PostResponseModel ->
+                .subscribeOn(Schedulers.io())
+                .subscribe({ response->
                     Timber.d("kgp post list")
                     for (item in response.posts) {
                         postList.value?.add(item)

@@ -59,6 +59,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
         getLocationPermission()
+
+
+
     }
     fun getLocationPermission(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -99,8 +102,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         })
 //        userName = intent.getStringExtra("userName")
 
-        viewModel.getPostList()
 
+    }
+    override fun onResume(){
+        super.onResume()
+        viewModel.getPostList()
     }
     fun setCurrenLocation(){
 
