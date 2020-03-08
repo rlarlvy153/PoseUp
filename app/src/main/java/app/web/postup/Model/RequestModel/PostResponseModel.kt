@@ -1,9 +1,9 @@
-package app.web.postup
+package app.web.postup.Model.RequestModel
 
-import app.web.postup.PostData.PostModel
+import app.web.postup.Model.PostModel
 import com.google.gson.annotations.SerializedName
 
-class PostResponseModel{
+data class PostResponseModel(
     @SerializedName("puposts")
     val posts:List<PostModel> = listOf()
 
@@ -11,4 +11,4 @@ class PostResponseModel{
 //    val items:List<PostModel> = listOf()
 
 
-}
+)
