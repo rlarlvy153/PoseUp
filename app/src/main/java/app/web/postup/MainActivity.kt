@@ -35,7 +35,6 @@ import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
-    private val TAG = "kgp::MainActivity::"
     val ANIMATION_DURATION=300L
     val ACCESS_FINE_LOCATION_CODE=1
 
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var viewModel :ViewModel
 
     override fun onMapReady(map : GoogleMap) {
-        Log.i(TAG,"map ready")
+
         googleMap = map
         googleMap.run{
             uiSettings.isZoomControlsEnabled = true
@@ -68,10 +67,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),ACCESS_FINE_LOCATION_CODE)
-            Log.i(TAG,"permission non granted")
+            Timber.d("kgp permission denied")
         }
         else {
-            Log.i(TAG,"permission granted")
+            Timber.d("kgp permission granted")
             googleMap.isMyLocationEnabled = true
             setCurrenLocation()
         }
@@ -83,6 +82,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        //        userName = intent.getStringExtra("userName")
+
         userName = "asdf"
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -90,7 +91,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         viewModel.postList.observe(this, Observer{
-            Timber.d("ffffffffff")
             for (item in it) {
                 googleMap.addMarker(
                     MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
@@ -100,7 +100,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 //                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
             }
         })
-//        userName = intent.getStringExtra("userName")
 
 
     }
@@ -117,7 +116,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             location.let{
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                Log.i(TAG,currentLatLng.longitude.toString() + " " + currentLatLng.latitude)
 
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
             }
@@ -126,7 +124,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker?.let{
-            Log.i(TAG,"${marker.title} ${marker.title}")
             marker.showInfoWindow()
 
         }

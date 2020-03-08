@@ -1,12 +1,9 @@
 package app.web.postup
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.web.postup.PostData.PostApi
 import app.web.postup.PostData.PostModel
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -22,16 +19,13 @@ class ViewModel : ViewModel(){
     }
 
     fun getPostList(){
-        Timber.d("kgp getPOsTList")
         compositeDisposable.add(
             PostApi.getPostList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response->
-                    Timber.d("kgp post list")
                     for (item in response.posts) {
                         postList.value?.add(item)
-                        Log.d("kkkkkk",item.text)
                     }
                     postList.value = postList.value
 
