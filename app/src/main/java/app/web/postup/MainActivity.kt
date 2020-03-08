@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
         //        userName = intent.getStringExtra("userName")
 
-        userName = "asdf"
+        userName = "dummy name"
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
