@@ -16,6 +16,8 @@ import android.widget.EditText
 import androidx.core.app.ActivityCompat
 
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import app.web.postup.PostData.PostApi
 import app.web.postup.PostData.Utils
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -24,9 +26,12 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.web.postup.BuildConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
@@ -34,8 +39,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     val ANIMATION_DURATION=300L
     val ACCESS_FINE_LOCATION_CODE=1
 
-    lateinit var editNoteContainer :LinearLayout
-    lateinit var editNote : EditText
 
     lateinit var googleMap:GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -43,8 +46,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var mapFragment:SupportMapFragment
 
     var userName:String = ""
-    lateinit var compositeDisposable: CompositeDisposable
     var isUp = false
+
+    lateinit var viewModel :ViewModel
+
     override fun onMapReady(map : GoogleMap) {
         Log.i(TAG,"map ready")
         googleMap = map
@@ -72,37 +77,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        userName = intent.getStringExtra("userName")
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
         userName = "asdf"
-
-        editNoteContainer = findViewById(R.id.edit_note_container)
-
-        editNote = findViewById(R.id.edit_note)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        compositeDisposable = CompositeDisposable()
-
-        compositeDisposable.add(
-            PostApi.getPostList()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.newThread())
-            .subscribe({ response: PostResponseModel ->
-                for (item in response.posts) {
-                    Log.d(TAG, item.toString())
-                    googleMap.addMarker(MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+        viewModel.postList.observe(this, Observer{
+            Timber.d("ffffffffff")
+            for (item in it) {
+                googleMap.addMarker(
+                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
                         .title(item.userName)
                         .snippet(item.text)
-                    )
+                )
 //                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
-                }
-            }, { error: Throwable ->
-                Log.d(TAG, error.localizedMessage)
-            }))
+            }
+        })
+//        userName = intent.getStringExtra("userName")
+
+        viewModel.getPostList()
+
     }
     fun setCurrenLocation(){
 
@@ -144,10 +142,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     fun onClickPostButton(v : View){
 
         if(isUp){
-            slideDown(editNoteContainer)
+            slideDown(edit_note_container)
 
             //register note !
-            val text = editNote.text.toString()
+            val text = edit_note.text.toString()
             if(text.isNotBlank()){
                 googleMap.addMarker(MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
                     .title(userName)
@@ -159,7 +157,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         else {
-            slideUp(editNoteContainer)
+            slideUp(edit_note_container)
         }
         isUp = !isUp
     }
