@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         googleMap.run{
             uiSettings.isZoomControlsEnabled = true
             setOnMarkerClickListener(this@MainActivity)
+            //googleMap.setPadding(left, top, right, bottom);
+
         }
 
         getLocationPermission()
@@ -96,7 +98,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
     override fun onResume(){
         super.onResume()
+        map_parent.post{
+            googleMap.setPadding(0,0,map_parent.width - 200,0)
+        }
+
+
         viewModel.getPostList()
+
+
+
     }
     fun setCurrenLocation(){
 
