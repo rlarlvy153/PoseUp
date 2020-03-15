@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import com.web.postup.R
 import android.os.Handler
+import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import androidx.core.app.ActivityCompat
 
@@ -37,7 +38,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     var userName:String = ""
     var isUp = false
-
+    @Volatile
+    var movingEditing = false
     lateinit var viewModel :ViewModel
 
     override fun onMapReady(map : GoogleMap) {
@@ -51,7 +53,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
         getLocationPermission()
-
+        viewModel.postList.observe(this, Observer{
+            for (item in it) {
+                googleMap.addMarker(
+                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
+                        .title(item.userName)
+                        .snippet(item.text)
+                )
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
+            }
+        })
 
 
     }
@@ -83,16 +94,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mapFragment.getMapAsync(this)
 
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
-        viewModel.postList.observe(this, Observer{
-            for (item in it) {
-                googleMap.addMarker(
-                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
-                        .title(item.userName)
-                        .snippet(item.text)
-                )
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
-            }
-        })
+        slideDown(edit_note_container)
+
+
 
 
     }
@@ -104,7 +108,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
         viewModel.getPostList()
-
+//        edit_note_container.visibility = View.GONE
+//        edit_note_container2.visibility = View.INVISIBLE
+//        edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
 
 
     }
@@ -145,6 +151,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
     fun onClickPostButton(v : View){
 
+//        if(isUp){
+//            edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
+//            edit_note_container.visibility = View.GONE
+//            edit_note_container2.visibility = View.GONE
+//            edit_note.visibility = View.GONE
+//        }
+//        else{
+//            edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_visible))
+//
+//            edit_note_container.visibility = View.VISIBLE
+//            edit_note_container2.visibility = View.VISIBLE
+//            edit_note.visibility = View.VISIBLE
+//
+//
+//        }
+//        isUp = !isUp
+//
+//        return
+        if(movingEditing) return
         if(isUp){
             slideDown(edit_note_container)
 
@@ -170,21 +195,53 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val ani = TranslateAnimation(0f,0f,view.height.toFloat(),0f).apply{
             duration = ANIMATION_DURATION
             fillAfter = true
+            setAnimationListener(object : Animation.AnimationListener{
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    movingEditing = false
+                }
+
+                override fun onAnimationStart(animation: Animation?) {
+                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_visible))
+                    edit_note_container.visibility = View.VISIBLE
+                    edit_note_container2.visibility = View.VISIBLE
+
+                    movingEditing= true
+                }
+
+            })
         }
-        view.run{
-            visibility = View.VISIBLE
-            startAnimation(ani)
-        }
+        view.startAnimation(ani)
+
     }
     fun slideDown(view :View){
+
         val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat()).apply{
             duration = ANIMATION_DURATION
             fillAfter = true
+            setAnimationListener(object : Animation.AnimationListener{
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
 
+                override fun onAnimationEnd(animation: Animation?) {
+                    movingEditing = false
+                    edit_note_container.visibility = View.GONE
+                    edit_note_container2.visibility = View.GONE
+                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
+
+                }
+
+                override fun onAnimationStart(animation: Animation?) {
+
+                    movingEditing= true
+                }
+
+            })
         }
-
         view.startAnimation(ani)
-        Handler().postDelayed({ view.visibility = View.GONE }, ANIMATION_DURATION)
+//        Handler().postDelayed({ view.visibility = View.GONE }, ANIMATION_DURATION)
     }
 
 
