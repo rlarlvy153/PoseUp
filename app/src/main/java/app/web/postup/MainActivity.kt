@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import com.web.postup.R
 import android.os.Handler
+import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import androidx.core.app.ActivityCompat
 
@@ -37,7 +38,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     var userName:String = ""
     var isUp = false
-
+    @Volatile
+    var movingEditing = false
     lateinit var viewModel :ViewModel
 
     override fun onMapReady(map : GoogleMap) {
@@ -51,7 +53,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
         getLocationPermission()
-
+        viewModel.postList.observe(this, Observer{
+            for (item in it) {
+                googleMap.addMarker(
+                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
+                        .title(item.userName)
+                        .snippet(item.text)
+                )
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
+            }
+        })
 
 
     }
@@ -83,16 +94,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mapFragment.getMapAsync(this)
 
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
-        viewModel.postList.observe(this, Observer{
-            for (item in it) {
-                googleMap.addMarker(
-                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
-                        .title(item.userName)
-                        .snippet(item.text)
-                )
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
-            }
-        })
+
 
 
     }
@@ -144,7 +146,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
     fun onClickPostButton(v : View){
-
+        if(movingEditing) return
         if(isUp){
             slideDown(edit_note_container)
 
@@ -170,21 +172,45 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val ani = TranslateAnimation(0f,0f,view.height.toFloat(),0f).apply{
             duration = ANIMATION_DURATION
             fillAfter = true
+            setAnimationListener(object : Animation.AnimationListener{
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    movingEditing = false
+                }
+
+                override fun onAnimationStart(animation: Animation?) {
+                    edit_note_container.visibility = View.VISIBLE
+                    movingEditing= true
+                }
+
+            })
         }
-        view.run{
-            visibility = View.VISIBLE
-            startAnimation(ani)
-        }
+        view.startAnimation(ani)
+
     }
     fun slideDown(view :View){
         val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat()).apply{
             duration = ANIMATION_DURATION
             fillAfter = true
+            setAnimationListener(object : Animation.AnimationListener{
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
 
+                override fun onAnimationEnd(animation: Animation?) {
+                    movingEditing = false
+                    edit_note_container.visibility = View.GONE
+                }
+
+                override fun onAnimationStart(animation: Animation?) {
+                    movingEditing= true
+                }
+
+            })
         }
-
         view.startAnimation(ani)
-        Handler().postDelayed({ view.visibility = View.GONE }, ANIMATION_DURATION)
+//        Handler().postDelayed({ view.visibility = View.GONE }, ANIMATION_DURATION)
     }
 
 
