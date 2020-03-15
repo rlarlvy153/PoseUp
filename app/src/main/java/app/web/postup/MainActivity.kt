@@ -1,27 +1,30 @@
 package app.web.postup
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.web.postup.R
-import android.os.Handler
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.web.postup.BuildConfig
+import com.web.postup.R
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
@@ -231,10 +234,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     edit_note_container2.visibility = View.GONE
                     edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
 
+
                 }
 
                 override fun onAnimationStart(animation: Animation?) {
-
+                    edit_note.clearFocus()
+                    val imm: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(edit_note.windowToken, 0)
                     movingEditing= true
                 }
 
