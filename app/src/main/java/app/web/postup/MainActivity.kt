@@ -94,6 +94,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mapFragment.getMapAsync(this)
 
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+        slideDown(edit_note_container)
+
 
 
 
@@ -106,7 +108,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
         viewModel.getPostList()
-
+//        edit_note_container.visibility = View.GONE
+//        edit_note_container2.visibility = View.INVISIBLE
+//        edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
 
 
     }
@@ -146,6 +150,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
     fun onClickPostButton(v : View){
+
+//        if(isUp){
+//            edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
+//            edit_note_container.visibility = View.GONE
+//            edit_note_container2.visibility = View.GONE
+//            edit_note.visibility = View.GONE
+//        }
+//        else{
+//            edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_visible))
+//
+//            edit_note_container.visibility = View.VISIBLE
+//            edit_note_container2.visibility = View.VISIBLE
+//            edit_note.visibility = View.VISIBLE
+//
+//
+//        }
+//        isUp = !isUp
+//
+//        return
         if(movingEditing) return
         if(isUp){
             slideDown(edit_note_container)
@@ -181,7 +204,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 }
 
                 override fun onAnimationStart(animation: Animation?) {
+                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_visible))
                     edit_note_container.visibility = View.VISIBLE
+                    edit_note_container2.visibility = View.VISIBLE
+
                     movingEditing= true
                 }
 
@@ -191,6 +217,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
     fun slideDown(view :View){
+
         val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat()).apply{
             duration = ANIMATION_DURATION
             fillAfter = true
@@ -201,9 +228,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 override fun onAnimationEnd(animation: Animation?) {
                     movingEditing = false
                     edit_note_container.visibility = View.GONE
+                    edit_note_container2.visibility = View.GONE
+                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
+
                 }
 
                 override fun onAnimationStart(animation: Animation?) {
+
                     movingEditing= true
                 }
 
