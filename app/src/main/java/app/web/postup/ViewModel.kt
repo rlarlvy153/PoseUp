@@ -11,32 +11,47 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class ViewModel : ViewModel(){
+class ViewModel : ViewModel() {
 
     var compositeDisposable = CompositeDisposable()
     var postList = MutableLiveData<ArrayList<PostModel>>()
     var restClient = RestClient.restClient
 
-    init{
+    init {
         postList.value = ArrayList<PostModel>()
     }
 
-    fun getPostList(){
+//    fun getPostList() {
+//        compositeDisposable.add(
+//            restClient.getPostList()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ response ->
+//                    for (item in response.posts) {
+//                        postList.value?.add(item)
+//                    }
+//                    postList.value = postList.value
+//
+//                }, { error: Throwable ->
+//
+//                    Timber.d("kgp error  ${error.localizedMessage}")
+//                })
+//        )
+//    }
+
+    fun getPostById(userId:Int) {
         compositeDisposable.add(
-            restClient.getPostList()
+            restClient.getPostById(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe({ response->
-                    for (item in response.posts) {
-                        postList.value?.add(item)
-                    }
+                .subscribe({ response ->
+                    postList.value?.add(response)
                     postList.value = postList.value
+                }, {
 
-                }, { error: Throwable ->
+                })
 
-                    Timber.d("kgp error  ${error.localizedMessage}")
-                }))
+        )
     }
-
 
 }

@@ -110,7 +110,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
 
-        viewModel.getPostList()
+        viewModel.getPostById(1)
+//        viewModel.getPostList()
 //        edit_note_container.visibility = View.GONE
 //        edit_note_container2.visibility = View.INVISIBLE
 //        edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
@@ -183,6 +184,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     .title(userName)
                     .snippet(text)
                 )
+                Timber.d("kgp lastlocation : ${lastLocation.latitude} , ${lastLocation.longitude}")
+
             }
             else{
                 Utils.showToast(this,resources.getString(R.string.empty_post))
