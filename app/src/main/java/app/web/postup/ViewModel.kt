@@ -2,7 +2,9 @@ package app.web.postup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import app.web.postup.Model.PostLocationModel
 import app.web.postup.Model.PostModel
+import app.web.postup.Model.RequestModel.GetPostByDeltaFromPositionRequestModel
 import app.web.postup.Network.PostApiInterface
 import app.web.postup.Network.RestClient
 import app.web.postup.Network.RetrofitCreator
@@ -39,9 +41,9 @@ class ViewModel : ViewModel() {
 //        )
 //    }
 
-    fun getPostById(userId:Int) {
+    fun getPostByPostId(userId: Int) {
         compositeDisposable.add(
-            restClient.getPostById(userId)
+            restClient.getPostByPostId(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response ->
@@ -52,6 +54,44 @@ class ViewModel : ViewModel() {
                 })
 
         )
+    }
+
+    fun addPost(text: String, lat: Double, lng: Double) {
+        var post: PostModel = PostModel(1, "kgp", text, PostLocationModel(lat, lng))
+        compositeDisposable.add(
+            restClient.addPost(post)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ response ->
+                    postList.value?.add(response)
+                    postList.value = postList.value
+                    Timber.d("succ")
+
+                }, {
+                    Timber.d("error addPost ${it.localizedMessage}")
+                })
+
+        )
+    }
+
+    fun getPostByRangeFromHere(lat: Double, lng: Double, delta: Double) {
+        compositeDisposable.add(
+            restClient.getPostByDeltaFromPosition(lat, lng, delta)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({response->
+                    for( post in response.posts){
+                        val eachPost = PostModel(1,post.userName,post.text,post.location)
+                        postList.value?.add(eachPost)
+                    }
+                    postList.value = postList.value
+
+                }, {
+                    Timber.d("error getPostByRangeFromHere $it")
+                })
+        )
+
+
     }
 
 }

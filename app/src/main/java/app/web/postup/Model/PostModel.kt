@@ -13,11 +13,14 @@ data class PostLocationModel(
 }
 
 data class PostModel(
-    @SerializedName("text")
-    val text:String="",
+    @SerializedName("user_id")
+    val userId : Int,
 
     @SerializedName("user_name")
     val userName : String = "",
+
+    @SerializedName("text")
+    val text:String="",
 
     @SerializedName("location")
     var location : PostLocationModel

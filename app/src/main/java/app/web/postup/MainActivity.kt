@@ -56,16 +56,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
         getLocationPermission()
-        viewModel.postList.observe(this, Observer{
-            for (item in it) {
-                googleMap.addMarker(
-                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
-                        .title(item.userName)
-                        .snippet(item.text)
-                )
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
-            }
-        })
+
 
 
     }
@@ -80,6 +71,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             Timber.d("kgp permission granted")
             googleMap.isMyLocationEnabled = true
             setCurrenLocation()
+
         }
     }
 
@@ -97,6 +89,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mapFragment.getMapAsync(this)
 
         viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+        viewModel.postList.observe(this, Observer{
+            for (item in it) {
+                Timber.d("hh ${item.text}")
+                googleMap.addMarker(
+                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
+                        .title(item.userName)
+                        .snippet(item.text)
+                )
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
+            }
+        })
         slideDown(edit_note_container)
 
 
@@ -109,8 +112,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             googleMap.setPadding(0,0,map_parent.width - 200,0)
         }
 
-
-        viewModel.getPostById(1)
+//        viewModel.getPostByPostId(3)
 //        viewModel.getPostList()
 //        edit_note_container.visibility = View.GONE
 //        edit_note_container2.visibility = View.INVISIBLE
@@ -127,12 +129,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             location.let{
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
+                viewModel.getPostByRangeFromHere(lastLocation.latitude, lastLocation.longitude, 0.001)
+//                tempGetPost()
+
             }
         }
-
     }
+
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker?.let{
             marker.showInfoWindow()
@@ -155,24 +159,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
     fun onClickPostButton(v : View){
 
-//        if(isUp){
-//            edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
-//            edit_note_container.visibility = View.GONE
-//            edit_note_container2.visibility = View.GONE
-//            edit_note.visibility = View.GONE
-//        }
-//        else{
-//            edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_visible))
-//
-//            edit_note_container.visibility = View.VISIBLE
-//            edit_note_container2.visibility = View.VISIBLE
-//            edit_note.visibility = View.VISIBLE
-//
-//
-//        }
-//        isUp = !isUp
-//
-//        return
         if(movingEditing) return
         if(isUp){
             slideDown(edit_note_container)
@@ -180,12 +166,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             //register note !
             val text = edit_note.text.toString()
             if(text.isNotBlank()){
-                googleMap.addMarker(MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
-                    .title(userName)
-                    .snippet(text)
-                )
                 Timber.d("kgp lastlocation : ${lastLocation.latitude} , ${lastLocation.longitude}")
-
+                viewModel.addPost(text,lastLocation.latitude, lastLocation.longitude)
             }
             else{
                 Utils.showToast(this,resources.getString(R.string.empty_post))
@@ -251,7 +233,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             })
         }
         view.startAnimation(ani)
-//        Handler().postDelayed({ view.visibility = View.GONE }, ANIMATION_DURATION)
     }
 
 
