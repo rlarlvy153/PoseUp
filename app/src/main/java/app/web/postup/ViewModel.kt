@@ -2,6 +2,7 @@ package app.web.postup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import app.web.postup.Model.Post.AddPostRequestModel
 import app.web.postup.Model.PostLocationModel
 import app.web.postup.Model.PostModel
 import app.web.postup.Network.RestClient
@@ -53,8 +54,8 @@ class ViewModel : ViewModel() {
         )
     }
 
-    fun addPost(text: String, lat: Double, lng: Double) {
-        var post: PostModel = PostModel(1, "kgp", text, PostLocationModel(lat, lng))
+    fun addPost(text: String, lat: Float, lng: Float) {
+        var post = AddPostRequestModel(1, text, PostLocationModel(lat, lng))
         compositeDisposable.add(
             restClient.addPost(post)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -78,7 +79,7 @@ class ViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({response->
                     for( post in response.posts){
-                        val eachPost = PostModel(1,post.userName,post.text,post.location)
+                        val eachPost = PostModel(1,post.userId, post.userName,post.text,post.location)
                         postList.value?.add(eachPost)
                     }
                     postList.value = postList.value

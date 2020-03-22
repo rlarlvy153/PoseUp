@@ -2,19 +2,14 @@ package app.web.postup.Model
 
 import com.google.gson.annotations.SerializedName
 
-data class PostLocationModel(
-    @SerializedName("lat")
-    val lat:Double = .0,
 
-    @SerializedName("lng")
-    val lng:Double = .0
-    ){
-    override fun toString():String = "lat : $lat, lng : $lng"
-}
 
 data class PostModel(
+    @SerializedName("id")
+    val postId : Long,
+
     @SerializedName("user_id")
-    val userId : Int,
+    val userId : Long,
 
     @SerializedName("user_name")
     val userName : String = "",

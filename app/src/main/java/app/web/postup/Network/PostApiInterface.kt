@@ -1,7 +1,9 @@
 package app.web.postup.Network
 
-import app.web.postup.Model.PostModel
+import app.web.postup.Model.Post.AddPostRequestModel
+import app.web.postup.Model.Post.AddPostResponseModel
 import app.web.postup.Model.Post.GetPostByDeltaFromPositionResponseModel
+import app.web.postup.Model.PostModel
 import app.web.postup.Model.Post.PostResponseModel
 import app.web.postup.Model.User.UserInfoResponseModel
 import io.reactivex.Single
@@ -16,7 +18,7 @@ interface PostApiInterface{
     fun getPostByPostId(@Path("post_id") userId:Int): Single<PostModel>
 
     @POST("pupost/")
-    fun addPost(@Body param : PostModel) : Single<PostModel>
+    fun addPost(@Body param : AddPostRequestModel) : Single<PostModel>
 
     @GET("pupost/")
     fun getPostByDeltaFromPosition(@Query("lat") lat : Double,

@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             for (item in it) {
                 Timber.d("hh ${item.text}")
                 googleMap.addMarker(
-                    MarkerOptions().position(LatLng(item.location.lat, item.location.lng))
+                    MarkerOptions().position(LatLng(item.location.lat.toDouble(), item.location.lng.toDouble()))
                         .title(item.userName)
                         .snippet(item.text)
                 )
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             val text = edit_note.text.toString()
             if(text.isNotBlank()){
                 Timber.d("kgp lastlocation : ${lastLocation.latitude} , ${lastLocation.longitude}")
-                viewModel.addPost(text,lastLocation.latitude, lastLocation.longitude)
+                viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
             }
             else{
                 Utils.showToast(this,resources.getString(R.string.empty_post))
