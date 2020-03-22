@@ -4,10 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.web.postup.Model.PostLocationModel
 import app.web.postup.Model.PostModel
-import app.web.postup.Model.RequestModel.GetPostByDeltaFromPositionRequestModel
-import app.web.postup.Network.PostApiInterface
 import app.web.postup.Network.RestClient
-import app.web.postup.Network.RetrofitCreator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -93,5 +90,22 @@ class ViewModel : ViewModel() {
 
 
     }
+    fun getUserInfo(){
+        compositeDisposable.add(
+            restClient.getUserInfo(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ response->
+                    Timber.d("user name ${response.nickname}")
+                    Timber.d("user id ${response.userId}")
+                    for(id in response.postIdList){
+                        Timber.d("id $id")
+                    }
 
+                }, {
+                    Timber.d("error getUserInfo $it")
+                })
+        )
+
+    }
 }

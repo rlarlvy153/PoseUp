@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         map_parent.post{
             googleMap.setPadding(0,0,map_parent.width - 200,0)
         }
-
+        viewModel.getUserInfo()
 //        viewModel.getPostByPostId(3)
 //        viewModel.getPostList()
 //        edit_note_container.visibility = View.GONE

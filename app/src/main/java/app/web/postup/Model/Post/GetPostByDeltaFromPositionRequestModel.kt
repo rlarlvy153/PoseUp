@@ -1,4 +1,4 @@
-package app.web.postup.Model.RequestModel
+package app.web.postup.Model.Post
 
 import com.google.gson.annotations.SerializedName
 

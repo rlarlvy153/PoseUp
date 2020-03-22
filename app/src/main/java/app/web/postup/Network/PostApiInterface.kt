@@ -1,8 +1,9 @@
 package app.web.postup.Network
 
 import app.web.postup.Model.PostModel
-import app.web.postup.Model.RequestModel.GetPostByDeltaFromPositionResponseModel
-import app.web.postup.Model.RequestModel.PostResponseModel
+import app.web.postup.Model.Post.GetPostByDeltaFromPositionResponseModel
+import app.web.postup.Model.Post.PostResponseModel
+import app.web.postup.Model.User.UserInfoResponseModel
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -22,6 +23,8 @@ interface PostApiInterface{
                                     @Query("lng") lng:Double,
                                     @Query("delta") delta:Double) : Single<GetPostByDeltaFromPositionResponseModel>
 
+    @GET("puuser/{user_id}")
+    fun getUserInfo(@Path("user_id") userId : Long) : Single<UserInfoResponseModel>
 //    @GET("/admin/puuser")
 //    fun getUserInfo(@Query(
 //
