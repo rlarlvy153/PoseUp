@@ -110,9 +110,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onResume(){
         super.onResume()
-        map_parent.post{
-            googleMap.setPadding(0,0,map_parent.width - 200,0)
-        }
+
         viewModel.getUserInfo()
 //        viewModel.getPostByPostId(3)
 //        viewModel.getPostList()
@@ -131,7 +129,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             location.let{
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
                 viewModel.getPostByRangeFromHere(lastLocation.latitude, lastLocation.longitude, 0.001)
 //                tempGetPost()
 
