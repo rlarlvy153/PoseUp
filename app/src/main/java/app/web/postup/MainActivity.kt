@@ -100,12 +100,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 //                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
             }
         })
-        slideDown(edit_note_container)
+//        slideDown(edit_note_container)
 
 
 
 
     }
+
+
     override fun onResume(){
         super.onResume()
         map_parent.post{
@@ -145,6 +147,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         return false
     }
 
+    fun onClickSendButton(v : View){
+        val text = to_send_text.text.toString()
+        if(!text.isBlank()){
+            viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
+            to_send_text.setText("")
+        }
+
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if(requestCode == ACCESS_FINE_LOCATION_CODE){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
@@ -157,83 +168,83 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
     }
-    fun onClickPostButton(v : View){
-
-        if(movingEditing) return
-        if(isUp){
-            slideDown(edit_note_container)
-
-            //register note !
-            val text = edit_note.text.toString()
-            if(text.isNotBlank()){
-                Timber.d("kgp lastlocation : ${lastLocation.latitude} , ${lastLocation.longitude}")
-                viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
-            }
-            else{
-                Utils.showToast(this,resources.getString(R.string.empty_post))
-            }
-        }
-        else {
-            slideUp(edit_note_container)
-        }
-        isUp = !isUp
-    }
-    fun slideUp(view :View){
-
-        val ani = TranslateAnimation(0f,0f,view.height.toFloat(),0f).apply{
-            duration = ANIMATION_DURATION
-            fillAfter = true
-            setAnimationListener(object : Animation.AnimationListener{
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-
-                override fun onAnimationEnd(animation: Animation?) {
-                    movingEditing = false
-                }
-
-                override fun onAnimationStart(animation: Animation?) {
-                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_visible))
-                    edit_note_container.visibility = View.VISIBLE
-                    edit_note_container2.visibility = View.VISIBLE
-
-                    movingEditing= true
-                }
-
-            })
-        }
-        view.startAnimation(ani)
-
-    }
-    fun slideDown(view :View){
-
-        val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat()).apply{
-            duration = ANIMATION_DURATION
-            fillAfter = true
-            setAnimationListener(object : Animation.AnimationListener{
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-
-                override fun onAnimationEnd(animation: Animation?) {
-                    movingEditing = false
-                    edit_note_container.visibility = View.GONE
-                    edit_note_container2.visibility = View.GONE
-                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
-
-
-                }
-
-                override fun onAnimationStart(animation: Animation?) {
-                    edit_note.clearFocus()
-                    val imm: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(edit_note.windowToken, 0)
-                    movingEditing= true
-                }
-
-            })
-        }
-        view.startAnimation(ani)
-    }
+//    fun onClickPostButton(v : View){
+//
+//        if(movingEditing) return
+//        if(isUp){
+//            slideDown(edit_note_container)
+//
+//            //register note !
+//            val text = edit_note.text.toString()
+//            if(text.isNotBlank()){
+//                Timber.d("kgp lastlocation : ${lastLocation.latitude} , ${lastLocation.longitude}")
+//                viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
+//            }
+//            else{
+//                Utils.showToast(this,resources.getString(R.string.empty_post))
+//            }
+//        }
+//        else {
+//            slideUp(edit_note_container)
+//        }
+//        isUp = !isUp
+//    }
+//    fun slideUp(view :View){
+//
+//        val ani = TranslateAnimation(0f,0f,view.height.toFloat(),0f).apply{
+//            duration = ANIMATION_DURATION
+//            fillAfter = true
+//            setAnimationListener(object : Animation.AnimationListener{
+//                override fun onAnimationRepeat(animation: Animation?) {
+//                }
+//
+//                override fun onAnimationEnd(animation: Animation?) {
+//                    movingEditing = false
+//                }
+//
+//                override fun onAnimationStart(animation: Animation?) {
+//                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_visible))
+//                    edit_note_container.visibility = View.VISIBLE
+//                    edit_note_container2.visibility = View.VISIBLE
+//
+//                    movingEditing= true
+//                }
+//
+//            })
+//        }
+//        view.startAnimation(ani)
+//
+//    }
+//    fun slideDown(view :View){
+//
+//        val ani = TranslateAnimation(0f,0f,0f,view.height.toFloat()).apply{
+//            duration = ANIMATION_DURATION
+//            fillAfter = true
+//            setAnimationListener(object : Animation.AnimationListener{
+//                override fun onAnimationRepeat(animation: Animation?) {
+//                }
+//
+//                override fun onAnimationEnd(animation: Animation?) {
+//                    movingEditing = false
+//                    edit_note_container.visibility = View.GONE
+//                    edit_note_container2.visibility = View.GONE
+//                    edit_note_container.setBackgroundColor(resources.getColor(R.color.background_edit_container_invisible))
+//
+//
+//                }
+//
+//                override fun onAnimationStart(animation: Animation?) {
+//                    edit_note.clearFocus()
+//                    val imm: InputMethodManager =
+//                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                    imm.hideSoftInputFromWindow(edit_note.windowToken, 0)
+//                    movingEditing= true
+//                }
+//
+//            })
+//        }
+//        view.startAnimation(ani)
+//    }
 
 
 }

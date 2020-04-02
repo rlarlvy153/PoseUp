@@ -9,5 +9,6 @@
     <string name="intro_main_title">POST UP</string>
     <string name="intro_sub_title">Prototype</string>
     <string name="sign_in_with_google">Sign in widh Google</string>
+    <string name="send">send</string>
 
 </resources>
