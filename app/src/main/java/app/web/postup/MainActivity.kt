@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -23,43 +24,39 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.tabs.TabLayout
 import com.web.postup.BuildConfig
 import com.web.postup.R
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
 
-class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
+class MainActivity : AppCompatActivity(){
     val ANIMATION_DURATION=300L
     val ACCESS_FINE_LOCATION_CODE=1
 
 
-    lateinit var googleMap:GoogleMap
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var lastLocation: Location
-    lateinit var mapFragment:SupportMapFragment
 
     var userName:String = ""
     var isUp = false
     @Volatile
     var movingEditing = false
     lateinit var viewModel :ViewModel
+    val mapFragment = MapFragment.instance
+    val myPageFragment = MyPageFragment.instance
 
-    override fun onMapReady(map : GoogleMap) {
 
-        googleMap = map
-        googleMap.run{
-            uiSettings.isZoomControlsEnabled = true
-            setOnMarkerClickListener(this@MainActivity)
-            //googleMap.setPadding(left, top, right, bottom);
 
+    fun callFragment(pos:Int?){
+        Timber.d("$pos")
+        val transaction = supportFragmentManager.beginTransaction()
+        when(pos){
+            0-> transaction.replace(R.id.main_tab_container,mapFragment)
+            1-> transaction.replace(R.id.main_tab_container,myPageFragment)
         }
-
-        getLocationPermission()
-
-
-
+        transaction.commitNow()
     }
+
     fun getLocationPermission(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
@@ -69,8 +66,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
         else {
             Timber.d("kgp permission granted")
-            googleMap.isMyLocationEnabled = true
-            setCurrenLocation()
+
 
         }
     }
@@ -81,27 +77,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        //        userName = intent.getStringExtra("userName")
+        getLocationPermission()
 
-        userName = "dummy name"
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
 
-        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
-        viewModel.postList.observe(this, Observer{
-            for (item in it) {
-                Timber.d("hh ${item.text}")
-                googleMap.addMarker(
-                    MarkerOptions().position(LatLng(item.location.lat.toDouble(), item.location.lng.toDouble()))
-                        .title(item.userName)
-                        .snippet(item.text)
-                )
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(item.location.lat, item.location.lng), 17f))
+
+        callFragment(0)
+        main_tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                callFragment(tab?.position)
             }
         })
-//        slideDown(edit_note_container)
 
+        //        userName = intent.getStringExtra("userName")
+
+
+////        slideDown(edit_note_container)
+//
 
 
 
@@ -109,9 +108,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
     override fun onResume(){
+
         super.onResume()
 
-        viewModel.getUserInfo()
+//        viewModel.getUserInfo()
 //        viewModel.getPostByPostId(3)
 //        viewModel.getPostList()
 //        edit_note_container.visibility = View.GONE
@@ -120,45 +120,24 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
     }
-    fun setCurrenLocation(){
 
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
-            // Got last known location. In some rare situations this can be null.
-            // 3
 
-            location.let{
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
-                viewModel.getPostByRangeFromHere(lastLocation.latitude, lastLocation.longitude, 0.001)
-//                tempGetPost()
 
-            }
-        }
-    }
 
-    override fun onMarkerClick(marker: Marker?): Boolean {
-        marker?.let{
-            marker.showInfoWindow()
-
-        }
-        return false
-    }
-
-    fun onClickSendButton(v : View){
-        val text = to_send_text.text.toString()
-        if(!text.isBlank()){
-            viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
-            to_send_text.setText("")
-        }
-
-    }
+//    fun onClickSendButton(v : View){
+//        val text = to_send_text.text.toString()
+//        if(!text.isBlank()){
+//            viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
+//            to_send_text.setText("")
+//        }
+//
+//    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if(requestCode == ACCESS_FINE_LOCATION_CODE){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                googleMap.isMyLocationEnabled = true
-                setCurrenLocation()
+//                googleMap.isMyLocationEnabled = true
+//                setCurrenLocation()
             }
             else{
 

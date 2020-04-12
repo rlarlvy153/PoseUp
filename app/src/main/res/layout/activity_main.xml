@@ -8,38 +8,81 @@
     android:orientation="vertical"
     tools:context="app.web.postup.MainActivity">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+    <FrameLayout
+        android:id="@+id/main_tab_container"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/message_edit_container"
-        tools:context=".MapsActivity" />
+        app:layout_constraintBottom_toTopOf="@id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/message_edit_container"
+
+    </FrameLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="#fff"
-        >
-        <EditText
-            android:id="@+id/to_send_text"
-            android:layout_weight="6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:onClick="onClickSendButton"
-            android:text="@string/send"
-            android:layout_weight="1"
-            android:background="#FF0000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+        >
+
+        <com.google.android.material.tabs.TabLayout
+            app:tabPaddingBottom="-1dp"
+            app:tabPaddingEnd="-1dp"
+            app:tabPaddingStart="-1dp"
+            app:tabPaddingTop="-1dp"
+            android:id="@+id/main_tab"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+
+            >
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지도"
+                />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="마이페이지"
+                />
+
+        </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    <fragment-->
+<!--        android:id="@+id/map"-->
+<!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/message_edit_container"-->
+<!--        tools:context=".MapsActivity" />-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/message_edit_container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        android:background="#fff"-->
+<!--        >-->
+<!--        <EditText-->
+<!--            android:id="@+id/to_send_text"-->
+<!--            android:layout_weight="6"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--        <Button-->
+<!--            android:onClick="onClickSendButton"-->
+<!--            android:text="@string/send"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="#FF0000"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+<!--    </LinearLayout>-->
 
 <!--    <LinearLayout-->
 <!--        android:id="@+id/edit_note_container"-->
