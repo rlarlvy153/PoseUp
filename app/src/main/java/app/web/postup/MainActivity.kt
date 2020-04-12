@@ -124,14 +124,7 @@ class MainActivity : AppCompatActivity(){
 
 
 
-//    fun onClickSendButton(v : View){
-//        val text = to_send_text.text.toString()
-//        if(!text.isBlank()){
-//            viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
-//            to_send_text.setText("")
-//        }
-//
-//    }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if(requestCode == ACCESS_FINE_LOCATION_CODE){

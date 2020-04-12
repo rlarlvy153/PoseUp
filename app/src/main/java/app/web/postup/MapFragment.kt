@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -33,6 +35,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var googleMapFragment: SupportMapFragment
     private lateinit var viewModel : ViewModel
 
+    private lateinit var sendText : EditText
+    private lateinit var sendButton:Button
+
     companion object {
         val instance = MapFragment()
 //        private fun newInstance() = MapFragment()
@@ -48,8 +53,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
         googleMap.isMyLocationEnabled = true
         setCurrenLocation()
-
-
 
     }
 
@@ -83,6 +86,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        sendText = view.findViewById(R.id.to_send_text)
+        sendButton = view.findViewById(R.id.send_button)
+        sendButton.setOnClickListener{
+            onClickSendButton(sendText)
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
     fun setCurrenLocation(){
 
         fusedLocationClient.lastLocation.addOnSuccessListener(activity!!) { location ->
@@ -110,6 +121,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
         }
         return false
+    }
+     fun onClickSendButton(v : View){
+        val text = sendText.text.toString()
+        if(!text.isBlank()){
+            viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
+            sendText.setText("")
+        }
+
     }
 
 }
