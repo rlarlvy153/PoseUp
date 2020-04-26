@@ -1,32 +1,12 @@
-package app.web.postup
+package kr.co.youngcha.postup
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.tabs.TabLayout
-import com.web.postup.BuildConfig
-import com.web.postup.R
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
@@ -41,7 +21,7 @@ class MainActivity : AppCompatActivity(){
     var isUp = false
     @Volatile
     var movingEditing = false
-    lateinit var viewModel :ViewModel
+    lateinit var viewModel : ViewModel
     val mapFragment = MapFragment.instance
     val myPageFragment = MyPageFragment.instance
 
@@ -134,7 +114,10 @@ class MainActivity : AppCompatActivity(){
             }
             else{
 
-                Utils.showToast(this,resources.getString(R.string.cannot_use_location))
+                Utils.showToast(
+                    this,
+                    resources.getString(R.string.cannot_use_location)
+                )
             }
         }
     }

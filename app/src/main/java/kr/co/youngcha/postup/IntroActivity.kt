@@ -1,12 +1,9 @@
-package app.web.postup
+package kr.co.youngcha.postup
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.web.postup.R
 
 
 class IntroActivity : AppCompatActivity() {

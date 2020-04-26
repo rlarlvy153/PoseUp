@@ -1,11 +1,10 @@
-package app.web.postup.Network
+package kr.co.youngcha.postup.Network
 
-import app.web.postup.Model.Post.AddPostRequestModel
-import app.web.postup.Model.Post.AddPostResponseModel
-import app.web.postup.Model.Post.GetPostByDeltaFromPositionResponseModel
-import app.web.postup.Model.PostModel
-import app.web.postup.Model.Post.PostResponseModel
-import app.web.postup.Model.User.UserInfoResponseModel
+import kr.co.youngcha.postup.Model.Post.AddPostRequestModel
+import kr.co.youngcha.postup.Model.Post.GetPostByDeltaFromPositionResponseModel
+import kr.co.youngcha.postup.Model.PostModel
+import kr.co.youngcha.postup.Model.Post.PostResponseModel
+import kr.co.youngcha.postup.Model.User.UserInfoResponseModel
 import io.reactivex.Single
 import retrofit2.http.*
 
