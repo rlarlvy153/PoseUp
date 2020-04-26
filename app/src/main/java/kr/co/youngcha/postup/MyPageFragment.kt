@@ -1,12 +1,11 @@
-package app.web.postup
+package kr.co.youngcha.postup
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.web.postup.R
+
 
 
 class MyPageFragment : Fragment() {

@@ -1,6 +1,6 @@
-package app.web.postup.Network
+package kr.co.youngcha.postup.Network
 
-import com.web.postup.BuildConfig
+import kr.co.youngcha.postup.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,7 +8,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitCreator {
-    val API_BASE_URL = "https://pupost.dev.youngcha.co.kr"
+    val API_BASE_URL = "https://pupost.dev.youngcha.co.kr/api"
     private var retrofit: Retrofit
     private var okHttpClient: OkHttpClient
 

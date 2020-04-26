@@ -1,11 +1,11 @@
-package app.web.postup
+package kr.co.youngcha.postup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import app.web.postup.Model.Post.AddPostRequestModel
-import app.web.postup.Model.PostLocationModel
-import app.web.postup.Model.PostModel
-import app.web.postup.Network.RestClient
+import kr.co.youngcha.postup.Model.Post.AddPostRequestModel
+import kr.co.youngcha.postup.Model.PostLocationModel
+import kr.co.youngcha.postup.Model.PostModel
+import kr.co.youngcha.postup.Network.RestClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

@@ -1,4 +1,4 @@
-package app.web.postup
+package kr.co.youngcha.postup
 
 import android.content.Context
 import android.util.DisplayMetrics

@@ -1,6 +1,6 @@
-package app.web.postup.Model.Post
+package kr.co.youngcha.postup.Model.Post
 
-import app.web.postup.Model.PostLocationModel
+import kr.co.youngcha.postup.Model.PostLocationModel
 import com.google.gson.annotations.SerializedName
 
 data class GetPostByDeltaFromPositionModel(
