@@ -8,7 +8,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitCreator {
-    val API_BASE_URL = "https://pupost.dev.youngcha.co.kr/api"
+    val API_BASE_URL = "https://postup.dev.youngcha.co.kr/api/"
+//    val API_BASE_URL = "http://192.168.43.133:8080/api/"
     private var retrofit: Retrofit
     private var okHttpClient: OkHttpClient
 
