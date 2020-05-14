@@ -10,5 +10,5 @@ class UserInfoResponseModel (
     val nickname:String,
 
     @SerializedName("pu_post_ids")
-    val postIdList : List<Int>
+    val postIdList : List<Long>
 )

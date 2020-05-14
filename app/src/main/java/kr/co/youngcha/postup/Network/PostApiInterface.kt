@@ -14,7 +14,7 @@ interface PostApiInterface{
     fun getPostList(): Single<PostResponseModel>
 
     @GET("pupost/{post_id}")
-    fun getPostByPostId(@Path("post_id") userId:Int): Single<PostModel>
+    fun getPostByPostId(@Path("post_id") postId:Long): Single<PostModel>
 
     @POST("pupost/")
     fun addPost(@Body param : AddPostRequestModel) : Single<PostModel>

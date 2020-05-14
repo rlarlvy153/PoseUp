@@ -15,10 +15,12 @@ class ViewModel : ViewModel() {
 
     var compositeDisposable = CompositeDisposable()
     var postList = MutableLiveData<ArrayList<PostModel>>()
+    var myPostList = MutableLiveData<ArrayList<PostModel>>()
     var restClient = RestClient.restClient
 
     init {
         postList.value = ArrayList<PostModel>()
+        myPostList.value = ArrayList<PostModel>()
     }
 
 //    fun getPostList() {
@@ -39,18 +41,20 @@ class ViewModel : ViewModel() {
 //        )
 //    }
 
-    fun getPostByPostId(userId: Int) {
+    fun getPostByPostId(postId: Long) {
+
         compositeDisposable.add(
-            restClient.getPostByPostId(userId)
+            restClient.getPostByPostId(postId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response ->
-                    postList.value?.add(response)
-                    postList.value = postList.value
+
+                    myPostList.value?.add(response)
+                    myPostList.value = myPostList.value
+                    Timber.d("${response.text} added")
                 }, {
 
                 })
-
         )
     }
 
@@ -91,17 +95,19 @@ class ViewModel : ViewModel() {
 
 
     }
-    fun getUserInfo(){
+    fun getUserInfo(userId:Long){
         compositeDisposable.add(
-            restClient.getUserInfo(1)
+            restClient.getUserInfo(userId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ response->
                     Timber.d("user name ${response.nickname}")
                     Timber.d("user id ${response.userId}")
-                    for(id in response.postIdList){
-                        Timber.d("id $id")
+
+                    for(id in response.postIdList) {
+                        getPostByPostId(id)
                     }
+
 
                 }, {
                     Timber.d("error getUserInfo $it")
@@ -109,4 +115,5 @@ class ViewModel : ViewModel() {
         )
 
     }
+
 }
