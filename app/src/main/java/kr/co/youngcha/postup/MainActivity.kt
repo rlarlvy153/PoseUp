@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(){
         }
         else {
             Timber.d("kgp permission granted")
-
+            callFragment(0)
 
         }
     }
@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
