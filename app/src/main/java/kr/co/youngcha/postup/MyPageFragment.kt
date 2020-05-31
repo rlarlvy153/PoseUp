@@ -38,6 +38,7 @@ class MyPageFragment : Fragment() {
             adapter = MyPagePostListAdapter(context)
         }
 
+
         viewModel.myPostList.observe(activity!!, Observer{
             (recyclerView.adapter as MyPagePostListAdapter).run{
                 addItem(it)
