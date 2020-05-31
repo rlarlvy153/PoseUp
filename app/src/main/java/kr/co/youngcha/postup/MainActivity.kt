@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(){
 
 
 
-        callFragment(0)
+//        callFragment(0)
         main_tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity(){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
 //                googleMap.isMyLocationEnabled = true
 //                setCurrenLocation()
+                callFragment(0)
             }
             else{
 
