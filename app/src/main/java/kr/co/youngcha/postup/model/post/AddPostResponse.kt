@@ -3,7 +3,7 @@ package kr.co.youngcha.postup.model.post
 import kr.co.youngcha.postup.model.PostLocation
 import com.google.gson.annotations.SerializedName
 
-data class AddPostResponseModel (
+data class AddPostResponse (
     @SerializedName("id")
     val postId : Long,
 

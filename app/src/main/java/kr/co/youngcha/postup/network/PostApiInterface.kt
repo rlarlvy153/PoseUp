@@ -1,31 +1,31 @@
 package kr.co.youngcha.postup.network
 
-import kr.co.youngcha.postup.model.post.AddPostRequestModel
-import kr.co.youngcha.postup.model.post.GetPostByDeltaFromPositionResponseModel
+import kr.co.youngcha.postup.model.post.AddPostRequest
+import kr.co.youngcha.postup.model.post.GetPostByDeltaFromPositionResponse
 import kr.co.youngcha.postup.model.Post
-import kr.co.youngcha.postup.model.post.PostResponseModel
-import kr.co.youngcha.postup.model.user.UserInfoResponseModel
+import kr.co.youngcha.postup.model.post.PostResponse
+import kr.co.youngcha.postup.model.user.UserInfo
 import io.reactivex.Single
 import retrofit2.http.*
 
 interface PostApiInterface{
 
     @GET("pupost/")
-    fun getPostList(): Single<PostResponseModel>
+    fun getPostList(): Single<PostResponse>
 
     @GET("pupost/{post_id}")
     fun getPostByPostId(@Path("post_id") postId:Long): Single<Post>
 
     @POST("pupost/")
-    fun addPost(@Body param : AddPostRequestModel) : Single<Post>
+    fun addPost(@Body param : AddPostRequest) : Single<Post>
 
     @GET("pupost/")
     fun getPostByDeltaFromPosition(@Query("lat") lat : Double,
                                     @Query("lng") lng:Double,
-                                    @Query("delta") delta:Double) : Single<GetPostByDeltaFromPositionResponseModel>
+                                    @Query("delta") delta:Double) : Single<GetPostByDeltaFromPositionResponse>
 
     @GET("puuser/{user_id}")
-    fun getUserInfo(@Path("user_id") userId : Long) : Single<UserInfoResponseModel>
+    fun getUserInfo(@Path("user_id") userId : Long) : Single<UserInfo>
 //    @GET("/admin/puuser")
 //    fun getUserInfo(@Query(
 //

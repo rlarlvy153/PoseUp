@@ -7,7 +7,7 @@ import kr.co.youngcha.postup.network.RestClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kr.co.youngcha.postup.model.post.AddPostRequestModel
+import kr.co.youngcha.postup.model.post.AddPostRequest
 import kr.co.youngcha.postup.model.PostLocation
 import kr.co.youngcha.postup.model.Post
 import timber.log.Timber
@@ -60,7 +60,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun addPost(text: String, lat: Float, lng: Float) {
-        var post = AddPostRequestModel(1, text, PostLocation(lat, lng))
+        var post = AddPostRequest(1, text, PostLocation(lat, lng))
         compositeDisposable.add(
             restClient.addPost(post)
                 .observeOn(AndroidSchedulers.mainThread())

@@ -2,7 +2,7 @@ package kr.co.youngcha.postup.model.user
 
 import com.google.gson.annotations.SerializedName
 
-class UserInfoResponseModel (
+class UserInfo (
     @SerializedName("id")
     val userId:Long,
 
