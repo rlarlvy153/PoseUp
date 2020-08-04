@@ -1,4 +1,4 @@
-package kr.co.youngcha.postup.Network
+package kr.co.youngcha.postup.network
 
 import kr.co.youngcha.postup.BuildConfig
 import okhttp3.OkHttpClient

@@ -2,10 +2,10 @@ package kr.co.youngcha.postup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kr.co.youngcha.postup.Model.Post.AddPostRequestModel
-import kr.co.youngcha.postup.Model.PostLocationModel
-import kr.co.youngcha.postup.Model.PostModel
-import kr.co.youngcha.postup.Network.RestClient
+import kr.co.youngcha.postup.model.Post.AddPostRequestModel
+import kr.co.youngcha.postup.model.PostLocationModel
+import kr.co.youngcha.postup.model.PostModel
+import kr.co.youngcha.postup.network.RestClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

@@ -1,6 +1,6 @@
-package kr.co.youngcha.postup.Model.Post
+package kr.co.youngcha.postup.model.Post
 
-import kr.co.youngcha.postup.Model.PostModel
+import kr.co.youngcha.postup.model.PostModel
 import com.google.gson.annotations.SerializedName
 
 data class PostResponseModel(
