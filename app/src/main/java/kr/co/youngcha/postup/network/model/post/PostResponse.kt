@@ -1,11 +1,11 @@
-package kr.co.youngcha.postup.Model.Post
+package kr.co.youngcha.postup.network.model.post
 
-import kr.co.youngcha.postup.Model.PostModel
+import kr.co.youngcha.postup.network.model.Post
 import com.google.gson.annotations.SerializedName
 
-data class PostResponseModel(
+data class PostResponse(
     @SerializedName("puposts")
-    val posts:List<PostModel> = listOf()
+    val posts:List<Post> = listOf()
 
 //    @SerializedName("items")
 //    val items:List<PostModel> = listOf()

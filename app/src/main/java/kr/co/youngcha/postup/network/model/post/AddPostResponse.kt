@@ -1,9 +1,9 @@
-package kr.co.youngcha.postup.Model.Post
+package kr.co.youngcha.postup.network.model.post
 
-import kr.co.youngcha.postup.Model.PostLocationModel
+import kr.co.youngcha.postup.network.model.PostLocation
 import com.google.gson.annotations.SerializedName
 
-data class AddPostResponseModel (
+data class AddPostResponse (
     @SerializedName("id")
     val postId : Long,
 
@@ -17,7 +17,7 @@ data class AddPostResponseModel (
     val text:String="",
 
     @SerializedName("location")
-    var location : PostLocationModel
+    var location : PostLocation
 ){
     override fun toString():String ="$userName said \"$text\" at $location"
 

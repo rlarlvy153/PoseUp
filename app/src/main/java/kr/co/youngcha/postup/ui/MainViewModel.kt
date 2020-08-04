@@ -1,26 +1,27 @@
-package kr.co.youngcha.postup
+package kr.co.youngcha.postup.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kr.co.youngcha.postup.Model.Post.AddPostRequestModel
-import kr.co.youngcha.postup.Model.PostLocationModel
-import kr.co.youngcha.postup.Model.PostModel
-import kr.co.youngcha.postup.Network.RestClient
+
+import kr.co.youngcha.postup.network.RestClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kr.co.youngcha.postup.network.model.post.AddPostRequest
+import kr.co.youngcha.postup.network.model.PostLocation
+import kr.co.youngcha.postup.network.model.Post
 import timber.log.Timber
 
-class ViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
 
     var compositeDisposable = CompositeDisposable()
-    var postList = MutableLiveData<ArrayList<PostModel>>()
-    var myPostList = MutableLiveData<ArrayList<PostModel>>()
+    var postList = MutableLiveData<ArrayList<Post>>()
+    var myPostList = MutableLiveData<ArrayList<Post>>()
     var restClient = RestClient.restClient
 
     init {
-        postList.value = ArrayList<PostModel>()
-        myPostList.value = ArrayList<PostModel>()
+        postList.value = ArrayList<Post>()
+        myPostList.value = ArrayList<Post>()
     }
 
 //    fun getPostList() {
@@ -59,7 +60,7 @@ class ViewModel : ViewModel() {
     }
 
     fun addPost(text: String, lat: Float, lng: Float) {
-        var post = AddPostRequestModel(1, text, PostLocationModel(lat, lng))
+        var post = AddPostRequest(1, text, PostLocation(lat, lng))
         compositeDisposable.add(
             restClient.addPost(post)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -83,7 +84,7 @@ class ViewModel : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({response->
                     for( post in response.posts){
-                        val eachPost = PostModel(1,post.userId, post.userName,post.text,post.location)
+                        val eachPost = Post(1,post.userId, post.userName,post.text,post.location)
                         postList.value?.add(eachPost)
                     }
                     postList.value = postList.value

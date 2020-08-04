@@ -1,4 +1,4 @@
-package kr.co.youngcha.postup
+package kr.co.youngcha.postup.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -8,6 +8,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kr.co.youngcha.postup.*
+import kr.co.youngcha.postup.support.util.Utils
+import kr.co.youngcha.postup.ui.map.MapFragment
+import kr.co.youngcha.postup.ui.mypage.MyPageFragment
 import timber.log.Timber
 
 
@@ -21,7 +25,7 @@ class MainActivity : AppCompatActivity(){
     var isUp = false
     @Volatile
     var movingEditing = false
-    lateinit var viewModel : ViewModel
+    lateinit var viewModel : MainViewModel
     val mapFragment = MapFragment.instance
     val myPageFragment = MyPageFragment.instance
 
@@ -55,9 +59,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+
         getLocationPermission()
 
 

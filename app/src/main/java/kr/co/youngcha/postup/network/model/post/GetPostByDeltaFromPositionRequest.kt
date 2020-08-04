@@ -1,8 +1,8 @@
-package kr.co.youngcha.postup.Model.Post
+package kr.co.youngcha.postup.network.model.post
 
 import com.google.gson.annotations.SerializedName
 
-data class GetPostByDeltaFromPositionRequestModel(
+data class GetPostByDeltaFromPositionRequest(
     @SerializedName("lat")
     val latitute : Double,
 

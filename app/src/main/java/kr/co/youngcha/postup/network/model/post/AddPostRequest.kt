@@ -1,9 +1,9 @@
-package kr.co.youngcha.postup.Model.Post
+package kr.co.youngcha.postup.network.model.post
 
-import kr.co.youngcha.postup.Model.PostLocationModel
+import kr.co.youngcha.postup.network.model.PostLocation
 import com.google.gson.annotations.SerializedName
 
-class AddPostRequestModel (
+class AddPostRequest (
     @SerializedName("user_id")
     val userId : Long,
 
@@ -11,5 +11,5 @@ class AddPostRequestModel (
     val text:String="",
 
     @SerializedName("location")
-    var location : PostLocationModel
+    var location : PostLocation
 )

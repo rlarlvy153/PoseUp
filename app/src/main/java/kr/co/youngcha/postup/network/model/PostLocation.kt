@@ -1,8 +1,8 @@
-package kr.co.youngcha.postup.Model
+package kr.co.youngcha.postup.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class PostLocationModel(
+data class PostLocation(
     @SerializedName("lat")
     val lat:Float = .0f,
 

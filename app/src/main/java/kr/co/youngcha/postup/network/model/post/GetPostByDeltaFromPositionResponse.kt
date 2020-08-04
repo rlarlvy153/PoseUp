@@ -1,9 +1,9 @@
-package kr.co.youngcha.postup.Model.Post
+package kr.co.youngcha.postup.network.model.post
 
-import kr.co.youngcha.postup.Model.PostLocationModel
+import kr.co.youngcha.postup.network.model.PostLocation
 import com.google.gson.annotations.SerializedName
 
-data class GetPostByDeltaFromPositionModel(
+data class GetPostByDeltaFromPosition(
     @SerializedName("user_id")
     val userId : Long,
 
@@ -14,10 +14,10 @@ data class GetPostByDeltaFromPositionModel(
     val text:String="",
 
     @SerializedName("location")
-    var location : PostLocationModel
+    var location : PostLocation
 )
 
-data class GetPostByDeltaFromPositionResponseModel(
+data class GetPostByDeltaFromPositionResponse(
     @SerializedName("puposts")
-    val posts : List<GetPostByDeltaFromPositionModel>
+    val posts : List<GetPostByDeltaFromPosition>
 )
