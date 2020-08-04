@@ -1,4 +1,4 @@
-package kr.co.youngcha.postup.model.post
+package kr.co.youngcha.postup.network.model.post
 
 import com.google.gson.annotations.SerializedName
 

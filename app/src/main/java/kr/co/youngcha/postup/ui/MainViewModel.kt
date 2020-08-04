@@ -7,9 +7,9 @@ import kr.co.youngcha.postup.network.RestClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kr.co.youngcha.postup.model.post.AddPostRequest
-import kr.co.youngcha.postup.model.PostLocation
-import kr.co.youngcha.postup.model.Post
+import kr.co.youngcha.postup.network.model.post.AddPostRequest
+import kr.co.youngcha.postup.network.model.PostLocation
+import kr.co.youngcha.postup.network.model.Post
 import timber.log.Timber
 
 class MainViewModel : ViewModel() {

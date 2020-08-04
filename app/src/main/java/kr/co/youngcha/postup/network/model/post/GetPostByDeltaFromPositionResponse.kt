@@ -1,12 +1,9 @@
-package kr.co.youngcha.postup.model.post
+package kr.co.youngcha.postup.network.model.post
 
-import kr.co.youngcha.postup.model.PostLocation
+import kr.co.youngcha.postup.network.model.PostLocation
 import com.google.gson.annotations.SerializedName
 
-data class AddPostResponse (
-    @SerializedName("id")
-    val postId : Long,
-
+data class GetPostByDeltaFromPosition(
     @SerializedName("user_id")
     val userId : Long,
 
@@ -18,7 +15,9 @@ data class AddPostResponse (
 
     @SerializedName("location")
     var location : PostLocation
-){
-    override fun toString():String ="$userName said \"$text\" at $location"
+)
 
-}
+data class GetPostByDeltaFromPositionResponse(
+    @SerializedName("puposts")
+    val posts : List<GetPostByDeltaFromPosition>
+)

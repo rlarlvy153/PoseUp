@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,6 +20,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kr.co.youngcha.postup.R
 import kr.co.youngcha.postup.ui.MainViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 import timber.log.Timber
 
 
@@ -30,7 +31,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
     private lateinit var googleMapFragment: SupportMapFragment
-    private lateinit var viewModel : MainViewModel
+    private val mainViewModel : MainViewModel by sharedViewModel()
 
     private lateinit var sendText : EditText
     private lateinit var sendButton:Button
@@ -67,8 +68,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         googleMapFragment = childFragmentManager.fragments[0] as SupportMapFragment
         googleMapFragment.getMapAsync(this)
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.postList.observe(activity!!, Observer{
+//        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mainViewModel.postList.observe(activity!!, Observer{
             for (item in it) {
                 Timber.d("hh ${item.text}")
                 googleMap.addMarker(
@@ -101,7 +102,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
-                viewModel.getPostByRangeFromHere(lastLocation.latitude, lastLocation.longitude, 0.001)
+                mainViewModel.getPostByRangeFromHere(lastLocation.latitude, lastLocation.longitude, 0.001)
 //                tempGetPost()
 
             }
@@ -122,7 +123,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
      fun onClickSendButton(v : View){
         val text = sendText.text.toString()
         if(!text.isBlank()){
-            viewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
+            mainViewModel.addPost(text,lastLocation.latitude.toFloat(), lastLocation.longitude.toFloat())
             sendText.setText("")
         }
 
