@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 
-data class PostModel(
+data class Post(
     @SerializedName("id")
     val postId : Long,
 
@@ -18,7 +18,7 @@ data class PostModel(
     val text:String="",
 
     @SerializedName("location")
-    var location : PostLocationModel
+    var location : PostLocation
     ){
     override fun toString():String ="$userName said \"$text\" at $location"
 

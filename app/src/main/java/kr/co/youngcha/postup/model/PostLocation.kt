@@ -2,7 +2,7 @@ package kr.co.youngcha.postup.model
 
 import com.google.gson.annotations.SerializedName
 
-data class PostLocationModel(
+data class PostLocation(
     @SerializedName("lat")
     val lat:Float = .0f,
 

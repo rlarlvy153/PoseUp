@@ -1,4 +1,4 @@
-package kr.co.youngcha.postup
+package kr.co.youngcha.postup.ui.map
 
 import android.location.Location
 import android.os.Bundle
@@ -19,6 +19,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kr.co.youngcha.postup.R
+import kr.co.youngcha.postup.ui.MainViewModel
 import timber.log.Timber
 
 
@@ -28,7 +30,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var lastLocation: Location
     private lateinit var googleMapFragment: SupportMapFragment
-    private lateinit var viewModel : ViewModel
+    private lateinit var viewModel : MainViewModel
 
     private lateinit var sendText : EditText
     private lateinit var sendButton:Button
@@ -65,7 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         googleMapFragment = childFragmentManager.fragments[0] as SupportMapFragment
         googleMapFragment.getMapAsync(this)
 
-        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.postList.observe(activity!!, Observer{
             for (item in it) {
                 Timber.d("hh ${item.text}")

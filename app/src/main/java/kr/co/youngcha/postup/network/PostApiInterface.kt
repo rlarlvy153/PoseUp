@@ -1,10 +1,10 @@
 package kr.co.youngcha.postup.network
 
-import kr.co.youngcha.postup.model.Post.AddPostRequestModel
-import kr.co.youngcha.postup.model.Post.GetPostByDeltaFromPositionResponseModel
-import kr.co.youngcha.postup.model.PostModel
-import kr.co.youngcha.postup.model.Post.PostResponseModel
-import kr.co.youngcha.postup.model.User.UserInfoResponseModel
+import kr.co.youngcha.postup.model.post.AddPostRequestModel
+import kr.co.youngcha.postup.model.post.GetPostByDeltaFromPositionResponseModel
+import kr.co.youngcha.postup.model.Post
+import kr.co.youngcha.postup.model.post.PostResponseModel
+import kr.co.youngcha.postup.model.user.UserInfoResponseModel
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -14,10 +14,10 @@ interface PostApiInterface{
     fun getPostList(): Single<PostResponseModel>
 
     @GET("pupost/{post_id}")
-    fun getPostByPostId(@Path("post_id") postId:Long): Single<PostModel>
+    fun getPostByPostId(@Path("post_id") postId:Long): Single<Post>
 
     @POST("pupost/")
-    fun addPost(@Body param : AddPostRequestModel) : Single<PostModel>
+    fun addPost(@Body param : AddPostRequestModel) : Single<Post>
 
     @GET("pupost/")
     fun getPostByDeltaFromPosition(@Query("lat") lat : Double,

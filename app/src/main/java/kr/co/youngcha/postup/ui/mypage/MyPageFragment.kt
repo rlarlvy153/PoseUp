@@ -1,4 +1,4 @@
-package kr.co.youngcha.postup
+package kr.co.youngcha.postup.ui.mypage
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.youngcha.postup.R
+import kr.co.youngcha.postup.ui.MainViewModel
 import timber.log.Timber
 
 
@@ -21,7 +23,7 @@ class MyPageFragment : Fragment() {
 //        private fun newInstance() = MapFragment()
     }
 
-    lateinit var viewModel : ViewModel
+    lateinit var viewModel : MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +31,7 @@ class MyPageFragment : Fragment() {
     ): View? {
 
         val root = inflater.inflate(R.layout.mypage_fragment, container, false)
-        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         recyclerView = root.findViewById(R.id.post_list)
         recyclerView.run{

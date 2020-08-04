@@ -1,4 +1,4 @@
-package kr.co.youngcha.postup
+package kr.co.youngcha.postup.ui.mypage
 
 import android.app.AlertDialog
 import android.content.Context
@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.youngcha.postup.model.PostModel
+import kr.co.youngcha.postup.R
+import kr.co.youngcha.postup.model.Post
 import timber.log.Timber
 
 class MyPagePostListAdapter (val context: Context) : RecyclerView.Adapter<MyPagePostListAdapter.ViewHolder>(){
 
-    var spotList = ArrayList<PostModel>()
+    var spotList = ArrayList<Post>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.mypage_post_item, parent, false))
@@ -21,12 +22,12 @@ class MyPagePostListAdapter (val context: Context) : RecyclerView.Adapter<MyPage
 
     override fun getItemCount() = spotList.size
 
-    override fun onBindViewHolder(holder: MyPagePostListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(spotList[position])
         holder.itemView.tag = spotList[position]
     }
 
-    fun addItem(list : ArrayList<PostModel>){
+    fun addItem(list : ArrayList<Post>){
         spotList.clear()
         spotList.addAll(list)
     }
@@ -53,7 +54,7 @@ class MyPagePostListAdapter (val context: Context) : RecyclerView.Adapter<MyPage
             }
         }
 
-        fun bind(post : PostModel){
+        fun bind(post : Post){
             postId.text = post.postId.toString()
             postText.text = post.text
 

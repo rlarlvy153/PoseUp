@@ -1,9 +1,10 @@
-package kr.co.youngcha.postup
+package kr.co.youngcha.postup.ui.intro
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import kr.co.youngcha.postup.R
 
 
 class IntroActivity : AppCompatActivity() {

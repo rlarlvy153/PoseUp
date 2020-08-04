@@ -1,6 +1,6 @@
-package kr.co.youngcha.postup.model.Post
+package kr.co.youngcha.postup.model.post
 
-import kr.co.youngcha.postup.model.PostLocationModel
+import kr.co.youngcha.postup.model.PostLocation
 import com.google.gson.annotations.SerializedName
 
 class AddPostRequestModel (
@@ -11,5 +11,5 @@ class AddPostRequestModel (
     val text:String="",
 
     @SerializedName("location")
-    var location : PostLocationModel
+    var location : PostLocation
 )
