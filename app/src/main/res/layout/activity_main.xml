@@ -9,17 +9,17 @@
     tools:context=".ui.MainActivity">
 
     <FrameLayout
-        android:id="@+id/main_tab_container"
+        android:id="@+id/mainTabContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/app_bar_layout"
+        app:layout_constraintBottom_toTopOf="@id/appBarLayout"
         app:layout_constraintStart_toStartOf="parent">
 
 
     </FrameLayout>
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,7 @@
             app:tabPaddingEnd="-1dp"
             app:tabPaddingStart="-1dp"
             app:tabPaddingTop="-1dp"
-            android:id="@+id/main_tab"
+            android:id="@+id/mainTab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
