@@ -85,8 +85,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sendText = view.findViewById(R.id.to_send_text)
-        sendButton = view.findViewById(R.id.send_button)
+        sendText = view.findViewById(R.id.toSendText)
+        sendButton = view.findViewById(R.id.sendButton)
         sendButton.setOnClickListener{
             onClickSendButton(sendText)
         }

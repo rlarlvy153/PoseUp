@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity(){
         Timber.d("$pos")
         val transaction = supportFragmentManager.beginTransaction()
         when(pos){
-            0-> transaction.replace(R.id.main_tab_container,mapFragment)
-            1-> transaction.replace(R.id.main_tab_container,myPageFragment)
+            0-> transaction.replace(R.id.mainTabContainer,mapFragment)
+            1-> transaction.replace(R.id.mainTabContainer,myPageFragment)
         }
         transaction.commitNow()
     }
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(){
 
 
 //        callFragment(0)
-        main_tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        mainTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
             }

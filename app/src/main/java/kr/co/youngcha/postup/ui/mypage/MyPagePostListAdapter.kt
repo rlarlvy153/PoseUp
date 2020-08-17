@@ -1,7 +1,6 @@
 package kr.co.youngcha.postup.ui.mypage
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
@@ -35,8 +34,8 @@ class MyPagePostListAdapter : RecyclerView.Adapter<MyPagePostListAdapter.ViewHol
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val postId = itemView.findViewById<TextView>(R.id.post_id)
-        val postText = itemView.findViewById<TextView>(R.id.post_text)
+        val postId = itemView.findViewById<TextView>(R.id.postId)
+        val postText = itemView.findViewById<TextView>(R.id.postText)
 
         init {
             itemView.setOnLongClickListener {

@@ -32,7 +32,7 @@ class MyPageFragment : Fragment() {
         val root = inflater.inflate(R.layout.mypage_fragment, container, false)
 
 
-        recyclerView = root.findViewById(R.id.post_list)
+        recyclerView = root.findViewById(R.id.postList)
         recyclerView.run{
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             layoutManager = LinearLayoutManager(context)
